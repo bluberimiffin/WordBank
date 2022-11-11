@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
+
 function WordBank() {
   const [dict, setDict] = useState({});
-
-
   return (
     <div>
         <form onSubmit= {(e) => {
@@ -14,7 +13,7 @@ function WordBank() {
           id("def").value = "";
         }}>
           <input type="text" id="word"/>
-          <input type="text" id="def"/>
+          <textarea type="text" id="def"/>
           <input type="submit" value="Add Word" />
         </form>
         <DisplayList words={Object.keys(dict)} dict={dict} />
@@ -23,18 +22,24 @@ function WordBank() {
 
 }
 
-
 const DisplayList = props => {
-  const words = props.words.map(string => <li key={string}>{string}</li>);
-  const defs = props.words.map(string => <li key={string}>{props.dict[string]}</li>)
+  let defs = [];
+  for (let i = 0; i < props.words.length; i++) {
+    defs.push(props.dict[props.words[i]]);
+  }
+  let parent = [props.words, defs];
+  var r = parent[0].map(function(col, i) {
+    return parent.map(function(row) {
+      return row[i];
+    });
+  });
   return (
-    <div class="d-flex flex-row">
-      <ol>
-        {words}
-      </ol>
-      <ol>
-        {defs}
-      </ol>
+    <div>
+      <table >
+        <body>
+          {r.map(row => <tr><td>{row[0]}</td><td>{row[1]}</td></tr>)}
+        </body>
+      </table>
     </div>
   )
 }
