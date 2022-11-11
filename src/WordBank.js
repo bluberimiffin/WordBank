@@ -1,66 +1,51 @@
 import React, { useState, useEffect } from 'react';
 function WordBank() {
-  const [words,setWords] = useState(["test", "test"]);
-  const [defs, setDefs] = useState([]);
+  const [dict, setDict] = useState({});
 
-  function addWord(word, def) {
-    setWords(word);
-    setWords(def);
-  }
+
   return (
     <div>
-      <InputWord addWord={addWord}/>
-      <DisplayList words={words}/>
-      <ul>
-        {words.map(string => <p>{string}</p>)}
-      </ul>
+        <form onSubmit= {(e) => {
+          let word = id("word").value;
+          let definition = id("def").value;
+          e.preventDefault();
+          setDict({...dict, [word] : definition});
+          id("word").value = "";
+          id("def").value = "";
+        }}>
+          <input type="text" id="word"/>
+          <input type="text" id="def"/>
+          <input type="submit" value="Add Word" />
+        </form>
+        <DisplayList words={Object.keys(dict)} dict={dict} />
     </div>
   )
 
 }
-const InputWord = props => {
-  const [word, setWord] = useState('');
-  const [def, setDef] = useState('');
-  useEffect(() => {
 
-  }, [])
-  return (
-    /*
-  <div>
-    <h2>Enter word:</h2>
-    <input type="text" onChange={event => props.changeWord(event.target.value)}/>
-    <h2>Enter definition:</h2>
-    <input type="text" onChange={event => props.changeDef(event.target.value)}/>
-  </div>
-  */
-      <form>
-        <input type="text" name="word" onChange={ e => setWord(e.target.value)}/>
-        <input type="text" name="def" onChange={e => setDef(e.target.value)}/>
-        <input type="submit" onSubmit={props.addWord({word}, {def})}/>
-      </form>
-  )
-}
 
 const DisplayList = props => {
-  /*
-  console.log(list);
-  let jsWords = [];
-  let jsDefs = [];
-  for (let i = 0; i < list.length; i++) {
-    let word = <li>{list[i]}</li>;
-    let def = <li>{props.bank[list[i]]}</li>;
-    jsWords.push(word);
-    jsDefs.push(def);
-  }
-*/
-useEffect(() => {
-
-}, [])
-  const items = props.words.map(string => <p>{string}</p>);
+  const words = props.words.map(string => <li key={string}>{string}</li>);
+  const defs = props.words.map(string => <li key={string}>{props.dict[string]}</li>)
   return (
-    <div>
-      {items}
+    <div class="d-flex flex-row">
+      <ol>
+        {words}
+      </ol>
+      <ol>
+        {defs}
+      </ol>
     </div>
   )
 }
+
+/**
+ * Returns an element on the page that has that ID.
+ * @param {string} id - id of element intended to be returned.
+ * @returns {Element} - an element with given id.Null if no element found.
+ */
+  function id(id) {
+  return document.getElementById(id);
+}
+
 export default WordBank;
