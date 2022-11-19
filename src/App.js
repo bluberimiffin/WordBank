@@ -1,8 +1,11 @@
 import './App.css';
-import WordBank from './WordBank.js'
+import WordBankPage from './WordBankPage.js'
 function App() {
   return (
-    <WordBank/>
+    <div>
+      <WordBankPage />
+
+    </div>
   );
 }
 
