@@ -44,14 +44,31 @@ function WordBankPage() {
           </div>
         </div>
       </div>
-      <div className="invisible" id="createList">
-        <CreateList  addBank={addBank}/>
+      <div className="invisible container" id="createList">
+        <div className='row'>
+            <div className='col-5'>
+              <CreateList addBank={addBank}/>
+            </div>
+            <div className='col-7'>
+              <ExitList />
+          </div>
+        </div>
       </div>
       <div className="invisible" id="wordBank">
         <InputWord addWord={addWord} currBank = {currBank}/>
         <DisplayList dict={wbs[currBank]}/>
       </div>
     </div>
+  )
+}
+
+function ExitList() {
+  return (
+    <button type="button" className='btn btn-danger' onClick={e=> {
+      e.preventDefault();
+      id("name").value = "";
+      id("createList").className = "invisible";
+    }}>X</button>
   )
 }
 
@@ -104,11 +121,12 @@ const InputWord = props => {
             let word = id("word").value;
             let definition = id("def").value;
             props.addWord(word, definition, props.currBank);
-
         }}>
-          <input type="text" id="word" required/>
-          <textarea type="text" id="def" required/>
-          <input className="btn btn-primary btn-success" type="submit" value="Add Word" />
+          <div className="container">
+            <input type="text" id="word" required/>
+            <textarea type="text" id="def" required/>
+            <input className="btn btn-primary btn-success" type="submit" value="Add Word" />
+          </div>
         </form>
   )
 }
