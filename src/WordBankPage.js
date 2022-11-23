@@ -33,6 +33,7 @@ function WordBankPage() {
 
   return (
     <div>
+      <h1 className="text-center">WordBank</h1>
       <h2 className="text-center">Select WordBank</h2>
       <div className="container">
         <div className="row">
@@ -121,6 +122,8 @@ const InputWord = props => {
             let word = id("word").value;
             let definition = id("def").value;
             props.addWord(word, definition, props.currBank);
+            id('word').value = "";
+            id('def').value = "";
         }}>
           <div className="container">
             <input type="text" id="word" required/>
