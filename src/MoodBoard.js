@@ -42,6 +42,7 @@ const CreateButton = props=> {
 
 const AddPin = props => {
   function enableInput(num) {
+    console.log("works");
     if (num === 0) {
       id('text-submit').disabled = false;
       id('link-submit').disabled = true;
@@ -60,29 +61,34 @@ const AddPin = props => {
   <div>
       <div className='container border col-sm-2 p-2'>
         <div className="form-check">
-            <input className="form-check-input" name="choose-content"
-                type="radio"  id="textOption" value="p"></input>
+            <input className="form-check-input" name="choose"
+                type="radio"  id="textOption" value="0"></input>
         <label className="form-check-label" for="textOption">
           Text
         </label>
       </div>
       <div className="form-check">
-            <input className="form-check-input" name="choose-content"
-            type="radio" id="linkOption" value="a"></input>
+            <input className="form-check-input" name="choose"
+            type="radio" id="linkOption" value="1"></input>
         <label className="form-check-label" for="LinkOption">
           Link
         </label>
       </div>
       <div className="form-check">
-            <input className="form-check-input" name="choose-content"
-            type="radio" id="picOption" value="img"></input>
+            <input className="form-check-input" name="choose"
+            type="radio" id="picOption" value="2"></input>
         <label className="form-check-label" for="LinkOption">
           Picture
         </label>
       </div>
       <div className="row">
         <div className="col-sm-6"></div>
-        <input className="col-sm-5" type="submit" value="Add"></input>
+        <input
+          className="col-sm-5" type="submit" onClick={e => {
+            console.log(document.getElementsByName('choose').value);
+            e.preventDefault();
+            enableInput(document.getElementsByName('choose').value);
+          }}></input>
       </div>
     </div>
     <div className="container border">
