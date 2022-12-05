@@ -12,10 +12,38 @@ function MoodBoard() {
       "value" : "test 2"
     }
   ]);
+  //sets whether we can see selectType Screen and inputContent Screen.
+  const[stVisible, setstVisible] = useState(false);
+  const[icVisible, seticVisible] = useState(false);
+  //sets type of content that can be submitted.
+  const[type, setType] = useState(0);
+  //stores current content that may be added to board.
+  const[input, setInput] = useState(null);
+
+  function inputVisible() {
+    id('file-input').className = 'd-block';
+    id('choose-type').className = 'd-block';
+  }
+  function enableInput(num) {
+    seticVisible(true);
+    if (num === 0) {
+      id('text-submit').disabled = false;
+      id('link-submit').disabled = true;
+      id('pic-submit').disabled = true;
+    } else if (num === 1) {
+      id('text-submit').disabled = true;
+      id('link-submit').disabled = false;
+      id('pic-submit').disabled = true;
+    } else {
+      id('text-submit').disabled = true;
+      id('link-submit').disabled = true;
+      id('pic-submit').disabled = false;
+    }
+  }
   return (
     <div>
       <h1 className="text-center">Mood Board</h1>
-      <CreateButton />
+      <CreateButton inputVisible={inputVisible}/>
       <AddPin />
       <Board content={content}/>
     </div>
@@ -37,12 +65,105 @@ const Board = props => {
   )
 }
 const CreateButton = props=> {
-  return (<button className='btn btn-info'>Add Pin</button>)
+  return (<button className='btn btn-info' onClick={props.inputVisible}>Add Pin</button>)
+}
+//needs type, setType, enableInput
+const SelectType = props => {
+  return (
+    <form onSubmit={e => {
+      e.preventDefault();
+      props.enableInput();
+    }}>
+    <div className="container col-5 border">
+      <div className="row">
+        <div className="col">
+          <label>
+            <input
+              type="radio"
+              value={2}
+              onClick={() => {props.setType(2)}}
+              checked={props.type === 2}
+              />
+            <span>Picture</span>
+        </label>
+        </div>
+        <div className="col">
+          <label>
+            <input
+              type="radio"
+              value={1}
+              onClick={() => {props.setType(1)}}
+              checked={props.type === 1}
+              />
+                <span>Link</span>
+          </label>
+        </div>
+        <div className="col">
+        <label>
+          <input
+            type="radio"
+            value={0}
+            onClick={() => {props.setType(0)}}
+            checked={props.type === 0}
+            />
+              <span>Text</span>
+        </label>
+        </div>
+        <div className="col">
+          <button type="submit">Select</button>
+        </div>
+      </div>
+      </div>
+    </form>
+  )
 }
 
+//needs setItem,
+const inputContent = props => {
+  return (
+    <div className="d-none" id="file-input">
+    <form>
+      <div className="container border">
+          <input
+            id="pic-submit"
+            type="file"
+            onChange={e=> {
+              e.preventDefault();
+              props.setItem(id('pic-submit').value);
+            }}
+            accept=".png, .jpg" disabled
+          ></input>
+          <label for="submit-url">Input URL:</label>
+          <input
+            id="link-submit"
+            type="url"
+            onChange={e=> {
+              e.preventDefault();
+              props.setItem(id('link-submit').value);
+            }}
+            name="submit-url" disabled
+          ></input>
+          <label for="submit-url">Input Passage:</label>
+          <textarea
+            id="text-submit"
+            onChange={e=> {
+              e.preventDefault();
+              props.setItem(id('text-submit').value);
+            }}
+            name="input-text" disabled ></textarea>
+          <input type="submit" value="Add"></input>
+      </div>
+    </form>
+    </div>
+  )
+}
+
+
+
 const AddPin = props => {
+  const[type, setType] =useState(0);
+  const[input, setInput] = useState(null);
   function enableInput(num) {
-    console.log("works");
     if (num === 0) {
       id('text-submit').disabled = false;
       id('link-submit').disabled = true;
@@ -57,47 +178,94 @@ const AddPin = props => {
       id('pic-submit').disabled = false;
     }
   }
+
+  function setItem(item) {
+    setInput(item);
+    console.log(item);
+  }
+
   return (
-  <div>
-      <div className='container border col-sm-2 p-2'>
-        <div className="form-check">
-            <input className="form-check-input" name="choose"
-                type="radio"  id="textOption" value="0"></input>
-        <label className="form-check-label" for="textOption">
-          Text
-        </label>
-      </div>
-      <div className="form-check">
-            <input className="form-check-input" name="choose"
-            type="radio" id="linkOption" value="1"></input>
-        <label className="form-check-label" for="LinkOption">
-          Link
-        </label>
-      </div>
-      <div className="form-check">
-            <input className="form-check-input" name="choose"
-            type="radio" id="picOption" value="2"></input>
-        <label className="form-check-label" for="LinkOption">
-          Picture
-        </label>
-      </div>
-      <div className="row">
-        <div className="col-sm-6"></div>
-        <input
-          className="col-sm-5" type="submit" onClick={e => {
-            console.log(document.getElementsByName('choose').value);
-            e.preventDefault();
-            enableInput(document.getElementsByName('choose').value);
-          }}></input>
-      </div>
+   <div>
+    <div className="d-none" id="choose-type">
+      <form onSubmit={e => {
+        e.preventDefault();
+        enableInput(type)
+      }}>
+      <div className="container col-5 border">
+        <div className="row">
+          <div className="col">
+            <label>
+              <input
+                type="radio"
+                value={2}
+                onClick={() => {setType(2)}}
+                checked={type === 2}
+                />
+              <span>Picture</span>
+          </label>
+          </div>
+          <div className="col">
+            <label>
+              <input
+                type="radio"
+                value={1}
+                onClick={() => {setType(1)}}
+                checked={type === 1}
+                />
+                  <span>Link</span>
+            </label>
+          </div>
+          <div className="col">
+          <label>
+            <input
+              type="radio"
+              value={0}
+              onClick={() => {setType(0)}}
+              checked={type === 0}
+              />
+                <span>Text</span>
+          </label>
+          </div>
+          <div className="col">
+            <button type="submit">Select</button>
+          </div>
+        </div>
+        </div>
+      </form>
     </div>
-    <div className="container border">
-        <input id="pic-submit"type="file" accept=".png, .jpg" disabled></input>
-        <label for="submit-url">Input URL:</label>
-        <input id="link-submit" type="url" name="submit-url" disabled></input>
-        <label for="submit-url">Input Passage:</label>
-        <textarea id="text-submit" name="input-text"disabled ></textarea>
-        <input type="submit" value="Add"></input>
+    <div className="d-none" id="file-input">
+    <form>
+      <div className="container border">
+          <input
+            id="pic-submit"
+            type="file"
+            onChange={e=> {
+              e.preventDefault();
+              setItem(id('pic-submit').value);
+            }}
+            accept=".png, .jpg" disabled
+          ></input>
+          <label for="submit-url">Input URL:</label>
+          <input
+            id="link-submit"
+            type="url"
+            onChange={e=> {
+              e.preventDefault();
+              setItem(id('link-submit').value);
+            }}
+            name="submit-url" disabled
+          ></input>
+          <label for="submit-url">Input Passage:</label>
+          <textarea
+            id="text-submit"
+            onChange={e=> {
+              e.preventDefault();
+              setItem(id('text-submit').value);
+            }}
+            name="input-text" disabled ></textarea>
+          <input type="submit" value="Add"></input>
+      </div>
+    </form>
     </div>
   </div>
   )
