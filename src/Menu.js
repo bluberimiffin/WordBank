@@ -8,6 +8,7 @@ function Menu(props) {
       <ul class="navbar-nav">
         <li className='nav-item btn' onClick={() => {props.display(0)}}>WordBank</li>
         <li className='nav-item btn' onClick={() => {props.display(1)}}>Mood Board</li>
+        <li className='nav-item btn'>Diary</li>
       </ul>
     </div>
   )

@@ -20,10 +20,8 @@ function MoodBoard() {
       const post = <div className="border">{value}</div>;
       setContent([...content, post]);
     } else {
-      const read = new FileReader();
-      read.readAsDataURL(item);
-      const value = <img src={item} alt="uploaded by user"/>
-      const post = <div className="border">{value}</div>;
+      const value = <img src={item} className="img-fluid" alt="uploaded by user"/>
+      const post = <div className="border w-25 h-25">{value}</div>;
       setContent([...content, post]);
     }
 
@@ -145,7 +143,7 @@ const InputContent = props => {
               type="file"
               onChange={e=> {
                 e.preventDefault();
-                props.setItem(id('pic-submit').value);
+                props.setItem(URL.createObjectURL(id('pic-submit').files[0]));
               }}
               accept=".png, .jpg" disabled
               name='submit-pic'
