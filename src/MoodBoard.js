@@ -16,7 +16,7 @@ function MoodBoard() {
       const post = <div className="border">{value}</div>;
       setContent([...content, post]);
     } else if (type === 1) {
-      let value = React.createElement('a', null, item);
+      const value = <a href={item}>{item}</a>
       const post = <div className="border">{value}</div>;
       setContent([...content, post]);
     } else {
@@ -24,13 +24,20 @@ function MoodBoard() {
       const post = <div className="border w-25 h-25">{value}</div>;
       setContent([...content, post]);
     }
-
   }
-  function inputVisible() {
 
+  function inputVisible(visible) {
+    if (visible) {
     id('file-input').className = 'd-block';
     id('choose-type').className = 'd-block';
+    id('cancel').className = 'd-block';
+    } else {
+      id('file-input').className = 'd-none';
+    id('choose-type').className = 'd-none';
+    id('cancel').className = 'd-none';
+    }
   }
+
   function enableInput() {
     if (type === 0) {
       id('text-submit').disabled = false;
@@ -48,8 +55,9 @@ function MoodBoard() {
   }
   return (
     <div>
-      <h1 className="text-center">Mood Board</h1>
+      <h1 className="text-center display-4">Mood Board</h1>
       <CreateButton inputVisible={inputVisible}/>
+      <CancelButton inputVisible={inputVisible}/>
       <SelectType setType= {setType} enableInput={enableInput} type={type}/>
       <InputContent item={item} setItem={setItem} createPost={createPost}/>
       <Board content={content}/>
@@ -57,25 +65,28 @@ function MoodBoard() {
   )
 }
 const Board = props => {
-  /*
-  let board =[];
-  for (let i = 0; i < props.content.length; i++) {
-    let info = props.content[i];
-    if (info["type"]==="p") {
-      let post = React.createElement('p', null, props.content[i]['value']);
-      board.push(post);
-    }
-  }
-  */
   return (
     <div className="container-fluid d-flex flex-wrap">
       {props.content}
     </div>
   )
 }
+
 const CreateButton = props=> {
-  return (<button className='btn btn-info' onClick={props.inputVisible}>Add Pin</button>)
+  return (<button className='btn btn-info' onClick={() => {props.inputVisible(true)}}>Add Pin</button>)
 }
+
+const CancelButton = props => {
+  return (
+    <div id="cancel" className='d-none'>
+      <button type="button" className='btn btn-danger' onClick={e=> {
+        e.preventDefault();
+        props.inputVisible(false);
+      }}>Cancel Pin</button>
+    </div>
+  )
+}
+
 //needs type, setType, enableInput
 const SelectType = props => {
   return (

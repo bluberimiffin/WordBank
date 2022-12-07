@@ -25,7 +25,15 @@ function App() {
       <MoodBoard />
       </div>
 
-
+      <div className="fixed-bottom">
+        <h1 className="display-4 fs-4">Created by Andre Casiano for Out in Tech, 2022</h1>
+        <h1 className="display-4 fs-4">
+          Link to GitHub: <a href="https://github.com/bluberimiffin/WordBank">https://github.com/bluberimiffin/WordBank</a>
+        </h1>
+        <h1 className="display-4 fs-4">
+          LinkedIn: <a href="https://www.linkedin.com/in/andre-b-casiano/">https://www.linkedin.com/in/andre-b-casiano/ </a>
+        </h1>
+      </div>
     </div>
   );
 }

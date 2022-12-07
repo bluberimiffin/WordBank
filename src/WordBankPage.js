@@ -33,8 +33,8 @@ function WordBankPage() {
 
   return (
     <div>
-      <h1 className="text-center">WordBank</h1>
-      <h2 className="text-center">Select WordBank</h2>
+      <h1 className="text-center display-4">WordBank</h1>
+      <h2 className="text-center display-4 fs-2">Select WordBank</h2>
       <div className="container">
         <div className="row">
           <div className="col">
