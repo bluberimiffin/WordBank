@@ -4,20 +4,21 @@ import WordBankPage from './WordBankPage.js'
 import Menu from './Menu.js'
 import React, { useState} from 'react';
 function App() {
-
-  function display(num) {
+  const[num, setNum] = useState(-1);
+  function display(passedNum) {
+    setNum(passedNum);
     if (num === 0) {
       id('wbp').className = "d-block";
       id('mb').className = "d-none";
     } else {
       id('wbp').className = "d-none";
-      id('mb').className = "d-block";
+      id('mb').className = "d-block ";
     }
   }
   return (
     <div className='container'>
 
-      <Menu display={display} />
+      <Menu display={display} num={num}/>
       <div className="d-none" id="wbp">
         <WordBankPage />
       </div>
@@ -26,11 +27,11 @@ function App() {
       </div>
 
       <div className="fixed-bottom">
-        <h1 className="display-4 fs-4">Created by Andre Casiano for Out in Tech, 2022</h1>
-        <h1 className="display-4 fs-4">
+        <h1 className="display-4 fs-6">Created by Andre Casiano for Out in Tech's Mentorship Program, Fall 2022</h1>
+        <h1 className="display-4 fs-6">
           Link to GitHub: <a href="https://github.com/bluberimiffin/WordBank">https://github.com/bluberimiffin/WordBank</a>
         </h1>
-        <h1 className="display-4 fs-4">
+        <h1 className="display-4 fs-6">
           LinkedIn: <a href="https://www.linkedin.com/in/andre-b-casiano/">https://www.linkedin.com/in/andre-b-casiano/ </a>
         </h1>
       </div>

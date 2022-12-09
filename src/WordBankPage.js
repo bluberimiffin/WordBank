@@ -24,17 +24,17 @@ function WordBankPage() {
   }
 
   function showWindow() {
-    id("createList").className = "visible";
+    id("createList").className = "d-block";
   }
 
   function displayBank() {
-    id("wordBank").className = "visible";
+    id("wordBank").className = "d-block";
   }
 
   return (
     <div>
-      <h1 className="text-center display-4">WordBank</h1>
-      <h2 className="text-center display-4 fs-2">Select WordBank</h2>
+      <h1 className="text-center display-4 fs-1">Word Bank</h1>
+      <h2 className="text-center display-4 fs-2">Select Word Bank</h2>
       <div className="container">
         <div className="row">
           <div className="col">
@@ -45,17 +45,19 @@ function WordBankPage() {
           </div>
         </div>
       </div>
-      <div className="invisible container" id="createList">
-        <div className='row'>
-            <div className='col-5'>
-              <CreateList addBank={addBank}/>
+      <div className="d-none" id="createList">
+        <div>
+          <div className='row'>
+              <div className='col-4'>
+                <CreateList addBank={addBank}/>
+              </div>
+              <div className='col-1'>
+                <ExitList />
             </div>
-            <div className='col-7'>
-              <ExitList />
           </div>
         </div>
       </div>
-      <div className="invisible" id="wordBank">
+      <div className="d-none" id="wordBank">
         <InputWord addWord={addWord} currBank = {currBank}/>
         <DisplayList dict={wbs[currBank]}/>
       </div>
@@ -68,7 +70,7 @@ function ExitList() {
     <button type="button" className='btn btn-danger' onClick={e=> {
       e.preventDefault();
       id("name").value = "";
-      id("createList").className = "invisible";
+      id("createList").className = "d-none";
     }}>X</button>
   )
 }
@@ -80,7 +82,7 @@ const CreateList = props => {
       let bankName = id("name").value;
       props.addBank(bankName);
       id("name").value = "";
-      id("createList").className="invisible";
+      id("createList").className="d-none";
     }}>
           <input type="text" id="name" required/>
           <input
@@ -125,10 +127,18 @@ const InputWord = props => {
             id('word').value = "";
             id('def').value = "";
         }}>
-          <div className="container">
-            <input type="text" id="word" required/>
-            <textarea type="text" id="def" required/>
-            <input className="btn btn-primary btn-success" type="submit" value="Add Word" />
+          <div className="container border">
+            <div className="row">
+              <div className="row col-8">
+              <label for="word">Input Word:</label>
+              <input type="text" name="word" id="word" required/>
+              <label for="definition">Type in Definition:</label>
+              <textarea type="text" id="def" required/>
+            </div>
+            <div className="row justify-content-end">
+              <input className="btn btn-primary btn-success col-4 justify-content-end"  type="submit" value="Add Word" />
+              </div>
+          </div>
           </div>
         </form>
   )

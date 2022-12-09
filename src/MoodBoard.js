@@ -10,14 +10,19 @@ function MoodBoard() {
   //stores current content that may be added to board.
   const[item, setItem] = useState(null);
 
+
   async function createPost() {
+    if (item === null) {
+      alert("Post is empty. Upload content.");
+      return;
+    }
     if (type === 0) {
       let value = React.createElement('p', null, item);
-      const post = <div className="border">{value}</div>;
+      const post = <span className="border fluid h-auto w-auto">{value}</span>;
       setContent([...content, post]);
     } else if (type === 1) {
       const value = <a href={item}>{item}</a>
-      const post = <div className="border">{value}</div>;
+      const post = <span className="border fluid">{value}</span>;
       setContent([...content, post]);
     } else {
       const value = <img src={item} className="img-fluid" alt="uploaded by user"/>
@@ -39,25 +44,34 @@ function MoodBoard() {
   }
 
   function enableInput() {
+    setItem(null);
     if (type === 0) {
       id('text-submit').disabled = false;
       id('link-submit').disabled = true;
+      id('link-submit').value = "";
       id('pic-submit').disabled = true;
+      id('pic-submit').value = "";
     } else if (type === 1) {
       id('text-submit').disabled = true;
+      id('text-submit').value = "";
       id('link-submit').disabled = false;
       id('pic-submit').disabled = true;
+      id('pic-submit').value = "";
     } else {
       id('text-submit').disabled = true;
+      id('text-submit').value = "";
       id('link-submit').disabled = true;
+      id('link-submit').value = "";
       id('pic-submit').disabled = false;
     }
   }
   return (
     <div>
-      <h1 className="text-center display-4">Mood Board</h1>
-      <CreateButton inputVisible={inputVisible}/>
-      <CancelButton inputVisible={inputVisible}/>
+      <h1 className="text-center display-4 fs-1">Mood Board</h1>
+      <div className='m-2'>
+        <CreateButton inputVisible={inputVisible}/>
+        <CancelButton inputVisible={inputVisible}/>
+      </div>
       <SelectType setType= {setType} enableInput={enableInput} type={type}/>
       <InputContent item={item} setItem={setItem} createPost={createPost}/>
       <Board content={content}/>
@@ -66,14 +80,21 @@ function MoodBoard() {
 }
 const Board = props => {
   return (
-    <div className="container-fluid d-flex flex-wrap">
-      {props.content}
+    <div className="d-flex">
+        {props.content}
     </div>
   )
 }
 
 const CreateButton = props=> {
-  return (<button className='btn btn-info' onClick={() => {props.inputVisible(true)}}>Add Pin</button>)
+  return (
+    <button
+      className='btn btn-info'
+      onClick={() =>{props.inputVisible(true)}}
+    >
+      Add Pin
+    </button>
+  )
 }
 
 const CancelButton = props => {
